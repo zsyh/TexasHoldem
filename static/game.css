@@ -266,7 +266,6 @@
     display: flex;
     flex-direction: column-reverse;
     justify-content: end;
-    z-index: -1;
 }
 
 #commands > div:nth-last-child(1) {
