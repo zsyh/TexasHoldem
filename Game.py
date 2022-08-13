@@ -175,7 +175,7 @@ class Game:
         for i in range(2):
             for p in itertools.chain(self.players[self.small_blind_player_index:],
                                      self.players[:self.small_blind_player_index]):
-                p.cards.append(self.deck.draw())
+                p.cards.append(self.deck.draw()[0])
 
         self.send_cards()
         self.deal_started = True
@@ -232,9 +232,9 @@ class Game:
 
         self.flop_turn_river(everybody_all_in)
 
-        self.community_cards.append(self.deck.draw())
-        self.community_cards.append(self.deck.draw())
-        self.community_cards.append(self.deck.draw())
+        self.community_cards.append(self.deck.draw()[0])
+        self.community_cards.append(self.deck.draw()[0])
+        self.community_cards.append(self.deck.draw()[0])
         self.send_flop()
 
     def send_flop(self):
@@ -253,7 +253,7 @@ class Game:
 
         self.flop_turn_river(everybody_all_in)
 
-        self.community_cards.append(self.deck.draw())
+        self.community_cards.append(self.deck.draw()[0])
         self.send_turn()
 
     def send_turn(self):
@@ -272,7 +272,7 @@ class Game:
 
         self.flop_turn_river(everybody_all_in)
 
-        self.community_cards.append(self.deck.draw())
+        self.community_cards.append(self.deck.draw()[0])
         self.send_river()
 
     def send_river(self):
