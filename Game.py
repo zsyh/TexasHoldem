@@ -370,7 +370,7 @@ class Game:
             self.send_finish(json_data)
             return
 
-        timer = threading.Timer(5.0, self.new_deal)
+        timer = threading.Timer(20, self.new_deal)
         timer.start()
 
     def reposition_player(self):
