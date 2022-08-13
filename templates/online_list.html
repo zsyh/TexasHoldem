@@ -4,12 +4,12 @@
 <div id="main_menu" class="menu horizontal">
     <div class="menu-item" data-url="{{ url_for('mode_selector') }}">
         <a href="{{ url_for('mode_selector') }}">
-            <div>Wstecz</div>
+            <div>Back</div>
         </a>
     </div>
     <div class="menu-item" data-url="{{ url_for('online_setup') }}">
         <a href="{{ url_for('online_setup') }}">
-            <div>Nowy pokój</div>
+            <div>New room</div>
         </a>
     </div>
 </div>
@@ -17,12 +17,12 @@
 {% if games | count > 0 %}
 <table id="online_game_list">
     <tr>
-        <th>Nazwa pokoju</th>
-        <th>Wpisowe</th>
+        <th>Room Name</th>
+        <th>Entry fee</th>
         <th>Small blind</th>
         <th>Big blind</th>
-        <th>Wolne krzesła</th>
-        <th>Dołącz</th>
+        <th>Free chairs</th>
+        <th>Join</th>
     </tr>
     {% for game in games %}
     <tr>
@@ -31,7 +31,7 @@
         <td>{{ "${:,.0f}".format(game.small_blind) }}</td>
         <td>{{ "${:,.0f}".format(game.big_blind) }}</td>
         <td>{{ game.required_number_of_players - game.players | count}}</td>
-        <td><a href="{{ url_for('play_game', identifier=game.id) }}">Dołącz</a></td>
+        <td><a href="{{ url_for('play_game', identifier=game.id) }}">Join</a></td>
     </tr>
     {% endfor %}
 </table>

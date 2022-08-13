@@ -6,13 +6,13 @@
 
 {% block content %}
 <form id="setup_form" action="#" method="post">
-    <label>Ilość graczy ludzkich
+    <label>Number of players
         <input id="number_of_human_players" type="number" min="1" max="8" value="2" required>
     </label>
-    <label>Ilość graczy AI
+    <label>Number of AI player
         <input id="number_of_cpu_players" name="number_of_cpu_players" type="number" min="0" max="6" value="2" required>
     </label>
-    <label>Wpisowe
+    <label>Entry fee
         <input name="entry_fee" type="number" min="100" value="1000" step="50" required>
     </label>
     <label>Big blind
@@ -20,19 +20,19 @@
     </label>
 
     <figure>
-        <figcaption>Nazwy graczy</figcaption>
+        <figcaption>Nazwy player</figcaption>
         <div id="human_players">
-            <label>Nazwa gracza 1
-                <input name="players[]" type="text" value="Gracz 1" required>
+            <label>player's name 1
+                <input name="players[]" type="text" value="Player 1" required>
             </label>
-            <label>Nazwa gracza 2
-                <input name="players[]" type="text" value="Gracz 2" required>
+            <label>player's name 2
+                <input name="players[]" type="text" value="Player 2" required>
             </label>
         </div>
     </figure>
 
     <figure>
-        <figcaption>Typy graczy AI</figcaption>
+        <figcaption>Typy player AI</figcaption>
         <div id="cpu_players">
             <label>Typ CPU 1
                 <select name="cpu_types[]">
@@ -53,13 +53,13 @@
         </div>
     </figure>
 
-    <button type="submit">Stwórz pokój</button>
+    <button type="submit">Create a room</button>
 </form>
 
 <div id="main_menu" class="menu">
     <div class="menu-item" data-url="{{ url_for('mode_selector') }}">
         <a href="{{ url_for('mode_selector') }}">
-            <div>Wstecz</div>
+            <div>Back</div>
         </a>
     </div>
 </div>

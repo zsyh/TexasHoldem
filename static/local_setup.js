@@ -57,10 +57,10 @@ function setupHumanPlayersDiv() {
     } else if (humanPlayerNamesDiv.children.length < requiredNumberOfPlayers) {
         do {
             let formRow = document.createElement('label')
-            formRow.innerText = "Nazwa gracza " + (humanPlayerNamesDiv.children.length + 1).toString()
+            formRow.innerText = "player's name " + (humanPlayerNamesDiv.children.length + 1).toString()
 
             let input = document.createElement('input')
-            input.value = 'Gracz ' + (humanPlayerNamesDiv.children.length + 1).toString()
+            input.value = 'Player ' + (humanPlayerNamesDiv.children.length + 1).toString()
             input.type = 'text'
             input.name = 'players[]'
             input.required = true

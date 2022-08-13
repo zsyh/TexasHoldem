@@ -20,12 +20,12 @@
 {% block content %}
 {% if not game.local %}
 <div id="player_name_div">
-    <label>Nazwa gracza<input type="text" id="player_name_input"></label>
-    <button id="player_name_button">Dołącz</button>
+    <label>player's name<input type="text" id="player_name_input"></label>
+    <button id="player_name_button">Join</button>
 </div>
-<div id="waiting_info">Oczekiwanie na wszystkich graczy...</div>
+<div id="waiting_info">Waiting for all players...</div>
 {% else %}
-<button id="start_local_game_button">Rozpocznij</button>
+<button id="start_local_game_button">Get started</button>
 <div id="player_turn_info"></div>
 {% endif %}
 <div id="game_content">
@@ -369,20 +369,20 @@
         </div>
     </div>
     <div id="action_buttons">
-        <button id="fold_button">Pas</button>
-        <button id="call_button"><span id="action_buttons_check_action_span">Sprawdź</span><br><span
+        <button id="fold_button">Fold</button>
+        <button id="call_button"><span id="action_buttons_check_action_span">Call</span><br><span
                 id="call_value"></span></button>
         <div id="raise_div">
             <label>
-                <span>Stawka</span>
+                <span>Value</span>
                 <input type="range" id="raise_input" min="0" max="500" step="2" value="0">
                 <span id="raise_value">$0</span>
             </label>
-            <button id="raise_button">Podbij</button>
+            <button id="raise_button">Raise</button>
         </div>
         <button id="all_in_button">All-in<br><span id="all_in_value"></span></button>
         {% if game.local %}
-        <button id="show_cards_button">Odsłoń karty</button>
+        <button id="show_cards_button">Show cards</button>
         {% endif %}
     </div>
 </div>

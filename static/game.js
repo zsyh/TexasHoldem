@@ -9,17 +9,17 @@ let game
 let localPlayersCards
 
 const RANK_CLASS_TO_STRING = {
-        1: "Poker",
-        2: "Kareta",
-        3: "Full",
-        4: "Kolor",
-        5: "Strit",
-        6: "Trójka",
-        7: "Dwie pary",
-        8: "Para",
-        9: "Wysoka karta",
-        10: "Pas"
-    }
+         1: "Straight Flush",
+         2: "Four of a kind",
+         3: "Full house",
+         4: "Flush",
+         5: "Straight",
+         6: "Three of a kind",
+         7: "Two pairs",
+         8: "One Pair",
+         9: "High card",
+         10: "Fold"
+}
 
 let formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -276,7 +276,7 @@ socket.on('user_connection', (...args) => {
     let json = JSON.parse(args)
 
     let playerName = json['name']
-    let commandText = "Gracz " + playerName + " dołączył do gry"
+    let commandText = "Player " + playerName + " Joined for the game"
     addCommand(commandText)
 })
 
@@ -320,27 +320,27 @@ socket.on('command', (...args) => {
 
     switch(json['move_type']) {
         case 'check':
-            addCommand('Gracz ' + json['player_name'] + ' czeka')
+            addCommand('Player ' + json['player_name'] + ' check')
             break
 
         case 'call_all_in':
-            addCommand('Gracz ' + json['player_name'] + ' sprawdza za wszystko (' + formatter.format(json['call_value']) + ')')
+            addCommand('Player ' + json['player_name'] + ' all in (' + formatter.format(json['call_value']) + ')')
             break
 
         case 'call':
-            addCommand('Gracz ' + json['player_name'] + ' sprawdza (' + formatter.format(json['call_value']) + ')')
+            addCommand('Player ' + json['player_name'] + ' call (' + formatter.format(json['call_value']) + ')')
             break
 
         case 'raise':
-            addCommand('Gracz ' + json['player_name'] + ' podbija (' + formatter.format(json['raise_value']) + ')')
+            addCommand('Player ' + json['player_name'] + ' raise (' + formatter.format(json['raise_value']) + ')')
             break
 
         case 'fold':
-            addCommand('Gracz ' + json['player_name'] + ' pasuje')
+            addCommand('Player ' + json['player_name'] + ' fold')
             break
 
         case 'all_in':
-            addCommand('Gracz ' + json['player_name'] + ' gra za wszystko (' + formatter.format(json['raise_value']) + ')')
+            addCommand('Player ' + json['player_name'] + ' all in (' + formatter.format(json['raise_value']) + ')')
             break
     }
 })
@@ -348,7 +348,7 @@ socket.on('command', (...args) => {
 socket.on('deal_end', (...args) => {
     let json = JSON.parse(args)
 
-    let winnerText = json['winning_players'].length === 1 ? 'Gracz ' : 'Gracze '
+    let winnerText = json['winning_players'].length === 1 ? 'Player ' : 'Playere '
     let players = ''
     let value = json['winning_value']
     let figure = json['figure']
@@ -362,7 +362,7 @@ socket.on('deal_end', (...args) => {
 
     winnerText += players
 
-    winnerText += json['winning_players'].length === 1 ? ' wygrywa ' : ' wygrywają po '
+    winnerText += json['winning_players'].length === 1 ? ' wins ' : ' wins '
     winnerText += formatter.format(value)
 
     winnerText += ' [' + RANK_CLASS_TO_STRING[figure] + ']'
@@ -374,7 +374,7 @@ socket.on('busted_info', (...args) => {
     let json = JSON.parse(args)
 
     if (Object.keys(json['busted_players']).length > 0) {
-        let bustedText = Object.keys(json['busted_players']).length === 1 ? 'Gracz ' : 'Gracze '
+        let bustedText = Object.keys(json['busted_players']).length === 1 ? 'Player ' : 'Players '
 
         for (let key in json['busted_players']) {
             bustedText += json['busted_players'][key]['name']
@@ -382,7 +382,7 @@ socket.on('busted_info', (...args) => {
         }
 
         bustedText = bustedText.substring(0, bustedText.length - 2)
-        bustedText += Object.keys(json['busted_players']).length === 1 ? ' odpada' : ' odpadają'
+        bustedText += Object.keys(json['busted_players']).length === 1 ? ' falls off' : ' fall off'
 
         addCommand(bustedText)
     }
@@ -410,7 +410,7 @@ socket.on('next_player', (...args) => {
 
         if (game['local']) {
             allCardReset()
-            document.getElementById('player_turn_info').innerText = 'Kolej gracza ' + json['players'][nextPlayer]['name']
+            document.getElementById('player_turn_info').innerText = 'Kolej Players ' + json['players'][nextPlayer]['name']
         }
 
         let callValue = json['call_value']
@@ -418,17 +418,17 @@ socket.on('next_player', (...args) => {
         let players = json['players']
 
         if (json['can_check']) {
-            document.getElementById('action_buttons_check_action_span').innerText = 'Czekaj'
+            document.getElementById('action_buttons_check_action_span').innerText = 'Check'
             document.getElementById('call_value').innerText = ''
             document.getElementById('call_button').style.backgroundColor = 'rgb(233, 233, 237)'
         } else {
             if (mustAllIn) {
                 document.getElementById('call_button').style.backgroundColor = 'gold'
-                document.getElementById('action_buttons_check_action_span').innerText = 'Sprawdź'
+                document.getElementById('action_buttons_check_action_span').innerText = 'Call'
                 document.getElementById('call_value').innerText = formatter.format(callValue)
             } else {
                 document.getElementById('call_button').style.backgroundColor = 'rgb(233, 233, 237)'
-                document.getElementById('action_buttons_check_action_span').innerText = 'Sprawdź'
+                document.getElementById('action_buttons_check_action_span').innerText = 'Call'
                 document.getElementById('call_value').innerText = formatter.format(callValue)
             }
         }
@@ -460,7 +460,7 @@ socket.on('next_player', (...args) => {
 
 socket.on('table_finish', (...args) => {
     let json = JSON.parse(args)
-    addCommand('Koniec rozgrywki! Stół wygrywa gracz ' + json['winner'], 'winner_info')
+    addCommand('Game over! The player {} wins the table '.format(json['winner']), 'winner_info')
 })
 
 function call() {
