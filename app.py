@@ -207,4 +207,4 @@ def on_all_in(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app=app, host='0.0.0.0', port=5128, debug=True)
+    socketio.run(app=app, host='0.0.0.0', port=5128, debug=False)
