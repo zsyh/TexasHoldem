@@ -1,0 +1,12 @@
+version: '3.5'
+
+services:
+  texasholdem:
+    image: 127.0.0.1:5000/zsyh/texasholdem
+    hostname: texasholdem
+    restart: always
+    ports:
+    - 3333:3333
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
