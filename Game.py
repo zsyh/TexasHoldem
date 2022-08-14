@@ -11,7 +11,7 @@ from Player import Player
 
 
 class Game:
-    MAX_BET_RAISES = 3
+    MAX_BET_RAISES = 9999999
 
     STAGE_PREFLOP = 0
     STAGE_FLOP = 1
@@ -132,6 +132,7 @@ class Game:
         must_all_in = (self.call_value >= (self.players[self.next_player_index].money +
                                            self.players[self.next_player_index].bet_pot))
 
+        can_check = (self.call_value == self.players[self.next_player_index].bet_pot)
         json_data = {
             'next_player': self.next_player_index,
             'players': [
@@ -140,8 +141,8 @@ class Game:
             'call_value': self.call_value,
             'min_raise_value': self.min_raise_value,
             'must_all_in': must_all_in,
-            'can_raise': (self.raise_counter < self.MAX_BET_RAISES) and not must_all_in,
-            'can_check': (self.call_value == self.players[self.next_player_index].bet_pot)
+            'can_raise': (self.raise_counter < self.MAX_BET_RAISES) and not must_all_in and not (self.raise_counter >= 1 and can_check),
+            'can_check': can_check
         }
 
         json_str = json.dumps(json_data)
@@ -512,7 +513,7 @@ class Game:
         self.call_value = value
         self.min_raise_value = self.call_value * 2
 
-        if self.raise_counter == 3:
+        if self.raise_counter == self.MAX_BET_RAISES:
             self.players[player_index].checked = True
 
         self.last_raiser_index = player_index
