@@ -272,6 +272,28 @@ socket.on('my_cards', (...args) => {
     }
 })
 
+socket.on('win_show_cards', (...args) => {
+    let json = JSON.parse(args)
+    let cards = JSON.parse(args[0])['cards']
+
+    for (let j = 0; j < json['players'].length; ++j) {
+        let myCards = document.querySelectorAll('.card.player' + (j + 1).toString())
+
+        for (let i = 0; i < 2; ++i) {
+            let rank = cards[j][i][0]
+            let suit = cards[j][i][1]
+
+            let myCard = myCards[i]
+            if(rank !== undefined){
+                cardSet(myCard, rank, suit, false)
+            } else{
+                cardSet(myCard, '', '', true)
+            }
+
+        }
+    }
+})
+
 socket.on('user_connection', (...args) => {
     let json = JSON.parse(args)
 
@@ -348,7 +370,7 @@ socket.on('command', (...args) => {
 socket.on('deal_end', (...args) => {
     let json = JSON.parse(args)
 
-    let winnerText = json['winning_players'].length === 1 ? 'Player ' : 'Playere '
+    let winnerText = json['winning_players'].length === 1 ? 'Player ' : 'Players '
     let players = ''
     let value = json['winning_value']
     let figure = json['figure']

@@ -310,6 +310,26 @@ class Game:
     def send_busted_info(self, data):
         self.socketio.emit('busted_info', json.dumps(data), to=self.id)
 
+    def win_show_cards(self):
+        cards = []
+        not_folded_count = 0
+        for player in self.players:
+            if not player.folded:
+                not_folded_count += 1
+        if not_folded_count < 2:
+            return
+
+        for player in self.players:
+            if not player.folded:
+                cards.append([treys.Card.int_to_pretty_str(card)[1:3] for card in player.cards])
+            else:
+                cards.append(["", ""])
+        data = {
+            'cards': cards,
+            'players': [p.get_dict() for p in self.players]
+        }
+        self.socketio.emit('win_show_cards', json.dumps(data))
+
     def check_winner(self, win_by_fold=False):
         for p in self.players:
             self.deal_pot += p.bet_pot
@@ -353,6 +373,8 @@ class Game:
             p.all_in = False
 
         figure = self.evaluator.get_rank_class(winning_players[0].hand_value) if not win_by_fold else 10
+
+        self.win_show_cards()
 
         json_data = {
             'winning_players': [p.name for p in winning_players],
