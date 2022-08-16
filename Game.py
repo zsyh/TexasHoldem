@@ -328,7 +328,7 @@ class Game:
             'cards': cards,
             'players': [p.get_dict() for p in self.players]
         }
-        self.socketio.emit('win_show_cards', json.dumps(data))
+        self.socketio.emit('win_show_cards', json.dumps(data), to=self.id)
 
     def check_winner(self, win_by_fold=False):
         for p in self.players:
