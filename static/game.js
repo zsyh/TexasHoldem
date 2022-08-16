@@ -425,6 +425,12 @@ socket.on('next_player', (...args) => {
 
     setupPlayersMoney(json['players'])
 
+    nextPlayer = json['next_player']
+    for (let i = 0; i < json['players'].length; ++i) {
+        document.querySelector('.player_name.player' + (i + 1).toString()).innerHTML = json['players'][i]['name']
+    }
+    document.querySelector('.player_name.player' + (nextPlayer + 1).toString()).innerHTML = "[" + json['players'][nextPlayer]['name'] + "]"
+
     if (playerIndex.includes(json['next_player'])) {
         myTurn = true
         nextPlayer = json['next_player']
